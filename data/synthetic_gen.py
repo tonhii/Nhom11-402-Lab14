@@ -386,8 +386,8 @@ async def main():
     ])
     all_qa_pairs.extend(hard_batch)
     
-    # Tổng cộng = 10 + 10 + 10 + 15 = 45 cases. Thêm 5 nữa để đủ 50
-    print("📝 Sinh thêm 5 cases để đủ 50...")
+    # Tổng cộng = 10 + 10 + 10 + 15 + 11 = 56 cases. Lấy 50 top
+    print("📝 Sinh thêm 11 cases để đủ 50...")
     additional = [
         {
             "question": "Tôi muốn ăn gì vào buổi trưa với bạn sở thích đặc biệt?",
@@ -418,6 +418,42 @@ async def main():
             "expected_answer": "Tôi chỉ gợi ý đồ ăn, không xử lý đặt hàng hoặc giao hàng. Vui lòng tìm nhà hàng hoặc ứng dụng giao hàng như Grab, Now để đặt.",
             "ground_truth_ids": [],
             "metadata": {"difficulty": "hard", "type": "out_of_scope_service"}
+        },
+        {
+            "question": "Món ăn nào thích hợp cho một bữa tiệc sinh nhật ngoài trời?",
+            "expected_answer": "Lẩu Thái, Bánh Xèo, Gỏi Cuốn, Mì Quảng đều rất thích hợp chia sẻ ở tiệc ngoài trời, vui vẻ và tính social cao.",
+            "ground_truth_ids": ["lau_thai", "banh_xeo", "goi_cuon", "mi_quang"],
+            "metadata": {"difficulty": "easy", "type": "occasion-based"}
+        },
+        {
+            "question": "Tôi muốn tìm một món ăn có giá dưới 30k và ngon.",
+            "expected_answer": "Bánh Mì, Phở Bò, Cháo Gà thường có giá dưới 30k ở các quán vỉa hè Việt Nam.",
+            "ground_truth_ids": ["banh_mi", "pho_bo", "chao_ga"],
+            "metadata": {"difficulty": "medium", "type": "budget"}
+        },
+        {
+            "question": "Tôi muốn ăn gì có hương thơm đặc trưng nhất?",
+            "expected_answer": "Phở Bò (mùi hành, mùi thì), Bún Bò Huế (mùi sả), Mì Quảng (mùi gia vị đậm) đều có hương thơm rất đặc trưng.",
+            "ground_truth_ids": ["pho_bo", "bun_bo_hue", "mi_quang"],
+            "metadata": {"difficulty": "medium", "type": "sensory"}
+        },
+        {
+            "question": "Tôi là một food blogger, muốn check-in điểm chụp hình đẹp. Gợi ý?",
+            "expected_answer": "Lẩu Thái, Bánh Xèo, Gỏi Cuốn có bố trí xíu, màu sắc đẹp, rất photogenic và phù hợp cho content.",
+            "ground_truth_ids": ["lau_thai", "banh_xeo", "goi_cuon"],
+            "metadata": {"difficulty": "medium", "type": "lifestyle"}
+        },
+        {
+            "question": "Tôi muốn ăn gì để tránh một bữa ăn tẻ nhạt, buồn tẻ?",
+            "expected_answer": "Lẩu Thái (cay cay thú vị), Bánh Xèo (giòn tan), Bún Bò Huế (vị mạnh) đều giúp làm bữa ăn thú vị hơn.",
+            "ground_truth_ids": ["lau_thai", "banh_xeo", "bun_bo_hue"],
+            "metadata": {"difficulty": "medium", "type": "experience"}
+        },
+        {
+            "question": "Tôi có chỉ 50k để ăn cả bữa và muốn nhiều thứ ăn. Gợi ý?",
+            "expected_answer": "Bánh Mì (rẻ, no nhanh) hoặc Phở Bò (tiền tươi thêm nhiều thứ) là lựa chọn tốt nhất.",
+            "ground_truth_ids": ["banh_mi", "pho_bo"],
+            "metadata": {"difficulty": "medium", "type": "budget"}
         }
     ]
     all_qa_pairs.extend(additional)
