@@ -1,4 +1,4 @@
-# 📝 Reflection - Lab Day 14
+# Reflection - Lab Day 14
 
 **Họ và tên:** Hoàng Văn Kiên  
 **MSSV:** 2A202600077  
@@ -6,7 +6,7 @@
 
 ---
 
-## 1. 🎯 Mục tiêu & Phân công
+## 1. Mục tiêu & Phân công
 
 **Vai trò:** Data Architect  
 **Trách nhiệm chính:**
