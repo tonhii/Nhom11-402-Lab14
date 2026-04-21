@@ -1,0 +1,102 @@
+[
+  {
+    "id": "pho_bo",
+    "name": "Phở Bò",
+    "tags": ["mặn", "nước", "nóng", "bữa sáng", "bữa trưa", "truyền thống", "nhẹ bụng"],
+    "calories": 400,
+    "ingredients": ["bánh phở", "thịt bò", "xương bò", "hành", "gừng", "gia vị"],
+    "description": "Phở bò truyền thống với nước dùng trong, thơm ngọt từ xương ninh lâu.",
+    "suitable_for": ["người thích ăn nhẹ", "người ăn sáng", "người thích vị umami"],
+    "not_suitable_for": ["người ăn chay", "người kiêng gluten"]
+  },
+  {
+    "id": "banh_mi",
+    "name": "Bánh Mì Thịt",
+    "tags": ["mặn", "giòn", "nhanh", "bữa sáng", "tiện lợi", "đường phố"],
+    "calories": 350,
+    "ingredients": ["bánh mì", "thịt nguội", "pate", "rau sống", "tương ớt"],
+    "description": "Bánh mì Việt Nam với vỏ giòn, nhân thịt phong phú, ăn nhanh tiện lợi.",
+    "suitable_for": ["người bận rộn", "người thích ăn nhanh", "buổi sáng"],
+    "not_suitable_for": ["người ăn chay", "người kiêng tinh bột"]
+  },
+  {
+    "id": "bun_bo_hue",
+    "name": "Bún Bò Huế",
+    "tags": ["cay", "đậm đà", "nước", "nóng", "bữa sáng", "bữa trưa", "miền Trung"],
+    "calories": 450,
+    "ingredients": ["bún", "thịt bò", "giò heo", "mắm ruốc", "sả", "ớt"],
+    "description": "Bún bò cay nồng đặc trưng Huế, nước dùng đậm vị mắm ruốc và sả.",
+    "suitable_for": ["người thích ăn cay", "người thích hương vị đậm đà"],
+    "not_suitable_for": ["người không ăn được cay", "người ăn chay"]
+  },
+  {
+    "id": "com_tam",
+    "name": "Cơm Tấm Sườn Bì",
+    "tags": ["mặn", "ngọt", "bữa trưa", "bữa tối", "no lâu", "đường phố"],
+    "calories": 600,
+    "ingredients": ["cơm tấm", "sườn nướng", "bì", "chả trứng", "nước mắm"],
+    "description": "Cơm tấm Sài Gòn với sườn nướng thơm lừng, bì giòn, ăn kèm nước mắm chua ngọt.",
+    "suitable_for": ["người cần ăn no", "bữa chính", "người thích thịt nướng"],
+    "not_suitable_for": ["người ăn chay", "người kiêng calo cao"]
+  },
+  {
+    "id": "goi_cuon",
+    "name": "Gỏi Cuốn Tôm Thịt",
+    "tags": ["nhẹ", "tươi mát", "lành mạnh", "ít calo", "không cay", "khai vị"],
+    "calories": 200,
+    "ingredients": ["bánh tráng", "tôm", "thịt heo", "rau sống", "bún", "tương hoisin"],
+    "description": "Gỏi cuốn tươi mát, nhẹ nhàng, ăn kèm tương chấm đậu phộng.",
+    "suitable_for": ["người ăn kiêng", "người thích ăn nhẹ", "thời tiết nóng", "người giảm cân"],
+    "not_suitable_for": ["người dị ứng hải sản"]
+  },
+  {
+    "id": "banh_xeo",
+    "name": "Bánh Xèo",
+    "tags": ["giòn", "béo", "bữa chiều", "bữa tối", "đặc sản", "miền Nam"],
+    "calories": 500,
+    "ingredients": ["bột gạo", "tôm", "thịt heo", "giá đỗ", "hành lá", "nước cốt dừa"],
+    "description": "Bánh xèo giòn tan, nhân tôm thịt béo ngậy, cuốn rau sống chấm nước mắm.",
+    "suitable_for": ["người thích ăn giòn", "ăn chơi buổi chiều", "bữa tối gia đình"],
+    "not_suitable_for": ["người kiêng dầu mỡ", "người dị ứng hải sản"]
+  },
+  {
+    "id": "chao_ga",
+    "name": "Cháo Gà",
+    "tags": ["mềm", "dễ ăn", "nóng", "bổ dưỡng", "dễ tiêu", "bữa sáng", "người bệnh"],
+    "calories": 280,
+    "ingredients": ["gạo", "thịt gà", "gừng", "hành lá", "tiêu"],
+    "description": "Cháo gà nóng hổi, mềm mịn, thơm mùi gừng, dễ tiêu hóa và bổ dưỡng.",
+    "suitable_for": ["người bệnh", "người mới ốm dậy", "người tiêu hóa kém", "buổi sáng lạnh"],
+    "not_suitable_for": ["người ăn chay"]
+  },
+  {
+    "id": "mi_quang",
+    "name": "Mì Quảng",
+    "tags": ["đậm đà", "ít nước", "bữa trưa", "miền Trung", "đặc sản", "no lâu"],
+    "calories": 480,
+    "ingredients": ["mì Quảng", "tôm", "thịt heo", "trứng cút", "đậu phộng", "bánh tráng nướng"],
+    "description": "Mì Quảng ít nước đặc trưng Đà Nẵng, ăn kèm bánh tráng nướng giòn và rau sống.",
+    "suitable_for": ["người thích ăn no", "người thích hương vị miền Trung"],
+    "not_suitable_for": ["người dị ứng hải sản", "người ăn chay"]
+  },
+  {
+    "id": "salad_uc_bo",
+    "name": "Salad Ức Bơ",
+    "tags": ["lành mạnh", "ít calo", "tươi mát", "ăn kiêng", "không cay", "bữa trưa"],
+    "calories": 250,
+    "ingredients": ["ức gà nướng", "bơ", "cà chua", "rau xanh", "dầu olive", "chanh"],
+    "description": "Salad ức gà bơ thanh mát, giàu protein và chất béo lành mạnh, phù hợp ăn kiêng.",
+    "suitable_for": ["người ăn kiêng", "người tập gym", "người thích ăn sạch", "giảm cân"],
+    "not_suitable_for": ["người không thích rau sống"]
+  },
+  {
+    "id": "lau_thai",
+    "name": "Lẩu Thái Hải Sản",
+    "tags": ["cay", "chua", "nóng", "hải sản", "bữa tối", "nhóm bạn", "đặc biệt"],
+    "calories": 550,
+    "ingredients": ["tôm", "mực", "ngao", "nấm", "sả", "ớt", "me", "lá chanh"],
+    "description": "Lẩu Thái chua cay nồng nàn với hải sản tươi, hương thơm sả ớt đặc trưng.",
+    "suitable_for": ["người thích cay", "ăn cùng bạn bè", "bữa tối cuối tuần"],
+    "not_suitable_for": ["người dị ứng hải sản", "người không ăn được cay"]
+  }
+]
