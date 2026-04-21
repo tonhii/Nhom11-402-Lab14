@@ -102,7 +102,7 @@
 
 ## 3. 📊 Kết quả đạt được (Deliverables)
 
-✅ **File `data/golden_set.jsonl` hoàn thiện:**
+**File `data/golden_set.jsonl` hoàn thiện:**
 - **Số lượng:** 50 test cases (đúng theo spec)
 - **Định dạng:** JSONL (mỗi dòng 1 JSON object)
 - **Có đầy đủ thông tin:** question, expected_answer, ground_truth_ids, context, metadata
@@ -124,7 +124,7 @@
 
 ---
 
-## 4. 💡 Kỹ thuật & Chiến lược áp dụng
+## 4. Kỹ thuật & Chiến lược áp dụng
 
 ### 4.1 Evolving Prompt Strategy
 - **Batch 1:** Câu hỏi đơn giản, rõ ràng (easy baseline)
@@ -185,7 +185,7 @@
 
 ---
 
-## 6. 📈 Impact & Kết luận
+## 6. Impact & Kết luận
 
 **Tại sao dataset này quan trọng:**
 - **Đo lường định lượng:** Hit Rate, MRR được tính trên dataset này → Benchmark tin cậy
@@ -198,7 +198,7 @@
 
 ---
 
-## 7. 🏆 Tự đánh giá
+## 7. Tự đánh giá
 
 **Điểm tự đánh giá:** **8.5/10**
 
