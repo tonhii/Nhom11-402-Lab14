@@ -98,7 +98,7 @@ class LLMJudge:
                 'Chỉ trả về JSON: {"score": <int 1-5>, "reasoning": "<string>"}'
             )
             resp = await client.chat.completions.create(
-                model=self.model, temperature=0, max_tokens=256,
+                model=self.model, temperature=0.8, max_tokens=256,
                 messages=[{"role": "user", "content": prompt}],
             )
             raw = resp.choices[0].message.content.strip().strip("```json").strip("```").strip()
