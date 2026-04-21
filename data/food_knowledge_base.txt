@@ -1,0 +1,115 @@
+# FOOD KNOWLEDGE BASE - Plain Text Format
+# Danh sách 10 Món Ăn Đặc Trưng Việt Nam
+# ============================================================
+
+## MONDESSERT 1: Phở Bò
+ID: pho_bo
+Name: Phở Bò
+Description: Phở bò truyền thống với nước dùng trong, thơm ngọt từ xương ninh lâu. Ăn kèm rau sống, chanh, ớt.
+Tags: mặn, nước, nóng, bữa sáng, bữa trưa, truyền thống, nhẹ bụng
+Calories: 400 kcal
+Ingredients: bánh phở, thịt bò, xương bò, hành, gừng, gia vị
+Suitable For: người thích ăn nhẹ, người ăn sáng, người thích vị umami
+Not Suitable For: người ăn chay, người kiêng gluten
+---
+
+## MONDESSERT 2: Bánh Mì Thịt
+ID: banh_mi
+Name: Bánh Mì Thịt
+Description: Bánh mì Việt Nam với vỏ giòn, nhân thịt phong phú (pate, thịt nguội, rau sống), tương ớt. Ăn nhanh tiện lợi.
+Tags: mặn, giòn, nhanh, bữa sáng, tiện lợi, đường phố
+Calories: 350 kcal
+Ingredients: bánh mì, thịt nguội, pate, rau sống, tương ớt
+Suitable For: người bận rộn, người thích ăn nhanh, buổi sáng
+Not Suitable For: người ăn chay, người kiêng tinh bột
+---
+
+## MONDESSERT 3: Bún Bò Huế
+ID: bun_bo_hue
+Name: Bún Bò Huế
+Description: Bún bò cay nồng đặc trưng Huế, nước dùng đậm vị mắm ruốc và sả. Chứa thịt bò, giò heo, mắm ruốc, sả, ớt.
+Tags: cay, đậm đà, nước, nóng, bữa sáng, bữa trưa, miền Trung
+Calories: 450 kcal
+Ingredients: bún, thịt bò, giò heo, mắm ruốc, sả, ớt
+Suitable For: người thích ăn cay, người thích hương vị đậm đà
+Not Suitable For: người không ăn được cay, người ăn chay
+---
+
+## MONDESSERT 4: Cơm Tấm Sườn Bì
+ID: com_tam
+Name: Cơm Tấm Sườn Bì
+Description: Cơm tấm Sài Gòn với sườn nướng thơm lừng, bì giòn, chả trứng, ăn kèm nước mắm chua ngọt. Ấm no lâu.
+Tags: mặn, ngọt, bữa trưa, bữa tối, no lâu, đường phố
+Calories: 600 kcal
+Ingredients: cơm tấm, sườn nướng, bì, chả trứng, nước mắm
+Suitable For: người cần ăn no, bữa chính, người thích thịt nướng
+Not Suitable For: người ăn chay, người kiêng calo cao
+---
+
+## MONDESSERT 5: Gỏi Cuốn Tôm Thịt
+ID: goi_cuon
+Name: Gỏi Cuốn Tôm Thịt
+Description: Gỏi cuốn tươi mát, nhẹ nhàng, cuốn bánh tráng với tôm, thịt heo, rau sống, bún. Ít calo, lành mạnh.
+Tags: nhẹ, tươi mát, lành mạnh, ít calo, không cay, khai vị
+Calories: 200 kcal
+Ingredients: bánh tráng, tôm, thịt heo, rau sống, bún, tương hoisin
+Suitable For: người ăn kiêng, người thích ăn nhẹ, thời tiết nóng, người giảm cân
+Not Suitable For: người dị ứng hải sản
+---
+
+## MONDESSERT 6: Bánh Xèo
+ID: banh_xeo
+Name: Bánh Xèo
+Description: Bánh xèo giòn tan, nhân tôm thịt béo ngậy, cuốn rau sống chấm nước mắm. Đặc sản miền Nam.
+Tags: giòn, mặn, ngọt, tôm, thịt, đặc sản miền Nam
+Calories: 320 kcal
+Ingredients: bột mì, sữa dừa, tôm, thịt heo, rau sống, nước mắm
+Suitable For: người thích đặc sản miền Nam, buổi chiều gia đình
+Not Suitable For: người ăn chay, người dị ứng hải sản, người kiêng dầu mỡ
+---
+
+## MONDESSERT 7: Cháo Gà
+ID: chao_ga
+Name: Cháo Gà
+Description: Cháo gà nóng hổi, mềm mịn, thơm mùi gừng, dễ tiêu hóa và bổ dưỡng. Phù hợp cho người bệnh.
+Tags: nóng, mềm mịn, bổ dưỡng, dễ tiêu hóa, lành mạnh
+Calories: 280 kcal
+Ingredients: gạo, gà, gừng, nước dùng gà, rau sống
+Suitable For: người bệnh, người mới ốm dậy, người bụng yếu
+Not Suitable For: (thích hợp cho hầu hết mọi người)
+---
+
+## MONDESSERT 8: Mì Quảng
+ID: mi_quang
+Name: Mì Quảng
+Description: Mì Quảng ít nước đặc trưng Đà Nẵng, ăn kèm bánh tráng nướng giòn và rau sống. Hương vị miền Trung.
+Tags: ít nước, khô, đậm đà, miền Trung, mì, rau
+Calories: 380 kcal
+Ingredients: mì Quảng, thịt nướng, rau sống, bánh tráng, tương, hạt dẻ cười
+Suitable For: người thích ăn khô, người thích miền Trung, buổi trưa
+Not Suitable For: người ăn chay (do thịt)
+---
+
+## MONDESSERT 9: Salad Ức Bơ
+ID: salad_uc_bo
+Name: Salad Ức Bơ
+Description: Salad ức gà bơ thanh mát, giàu protein và chất béo lành mạnh. Phù hợp ăn kiêng và tập gym.
+Tags: nhẹ, tươi mát, protein cao, lành mạnh, ít calo, ăn kiêng
+Calories: 280 kcal
+Ingredients: ức gà, bơ, xà lách, cà chua, chanh, dầu ô liu
+Suitable For: người ăn kiêng, người tập gym, người thích ăn nhẹ
+Not Suitable For: người dị ứng với trứng (nếu có mayonnaise)
+---
+
+## MONDESSERT 10: Lẩu Thái Hải Sản
+ID: lau_thai
+Name: Lẩu Thái Hải Sản
+Description: Lẩu Thái chua cay nồng nàn với hải sản tươi (tôm, mực, ngao), sả, ớt, me, lá chanh. Ăn cùng bạn.
+Tags: cay, chua, nước, nóng, share, hải sản, lẩu, xã hội
+Calories: 350 kcal (mỗi phần ăn)
+Ingredients: nước dùng Thái, tôm, mực, ngao, sả, ớt, me, lá chanh, hành
+Suitable For: ăn nhóm, tiệc bạn bè, buổi tối, người thích cay chua
+Not Suitable For: người dị ứng hải sản, người không ăn được cay
+---
+
+END OF KNOWLEDGE BASE
