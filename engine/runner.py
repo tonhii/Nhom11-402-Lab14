@@ -19,8 +19,8 @@ class BenchmarkRunner:
                 latency = time.perf_counter() - start_time
                 
                 # 2. Chạy Retrieval Evaluation
-                # Lấy doc_ids từ agent response metadata
-                retrieved_ids = response.get("metadata", {}).get("doc_ids", [])
+                # Lấy retrieved_ids từ agent response metadata
+                retrieved_ids = response.get("metadata", {}).get("retrieved_ids", [])
                 ground_truth_ids = test_case.get("ground_truth_ids", [])
                 hit_rate = self.evaluator.calculate_hit_rate(ground_truth_ids, retrieved_ids)
                 mrr = self.evaluator.calculate_mrr(ground_truth_ids, retrieved_ids)

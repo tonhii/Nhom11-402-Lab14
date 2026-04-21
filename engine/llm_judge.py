@@ -62,7 +62,7 @@ class LLMJudge:
 
         rubric = self.rubrics["accuracy"]
         score_a, score_b = await asyncio.gather(
-            call_judge("gpt-5-mini", rubric),
+            call_judge("gpt-4o-mini", rubric),
             call_judge("gpt-4o-mini", rubric),
         )
 
