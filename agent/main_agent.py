@@ -11,7 +11,7 @@ load_dotenv()
 # LOAD KNOWLEDGE BASE từ file JSON
 # ============================================================
 
-def load_knowledge_base(path: str = "../data/food_knowledge_base.json") -> List[Dict]:
+def load_knowledge_base(path: str = "data/food_knowledge_base.json") -> List[Dict]:
     """
     Đọc knowledge base từ file JSON bên ngoài.
     Dễ dàng thêm/sửa/xóa món mà không cần chạm vào code.
@@ -84,7 +84,7 @@ class MainAgent:
     def __init__(
         self,
         api_key: Optional[str] = None,
-        kb_path: str = "../data/food_knowledge_base.json",
+        kb_path: str = "data/food_knowledge_base.json",
     ):
         self.name = "FoodAgent-RAG-v1"
         self.client = AsyncOpenAI(api_key=api_key or os.getenv("OPENAI_API_KEY"))
