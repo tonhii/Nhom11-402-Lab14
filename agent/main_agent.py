@@ -48,9 +48,28 @@ def load_knowledge_base(path: str = "data/food_knowledge_base.json") -> List[Dic
     else:
         raise ValueError(f"Format không hỗ trợ: {suffix}. Chỉ hỗ trợ .json, .txt, .md")
     
-    print(f"✅ Đã load {len(data)} món ăn từ '{kb_path.resolve()}' (format: {suffix})")
+    print(f"[*] Loaded {len(data)} items from '{kb_path.resolve()}' (format: {suffix})")
     return data
+def load_all_knowledge_bases(data_dir: str = "data") -> List[Dict]:
+    """
+    Quét tất cả các file food_knowledge_base* (.json, .txt) trong thư mục data
+    để tạo thành một chunk database lớn.
+    """
+    all_data = []
+    dir_path = Path(data_dir)
+    if not dir_path.exists():
+        return all_data
 
+    for file_path in dir_path.glob("food_knowledge_base*.*"):
+        if file_path.suffix.lower() in [".json", ".txt"]:
+            try:
+                data = load_knowledge_base(str(file_path))
+                all_data.extend(data)
+            except Exception as e:
+                print(f"[!] Error reading {file_path.name}: {e}")
+    
+    print(f"[*] SYSTEM LOADED TOTAL {len(all_data)} CHUNKS.")
+    return all_data
 
 def _parse_txt_knowledge_base(content: str) -> List[Dict]:
     """Parse plain text knowledge base format."""
@@ -258,7 +277,7 @@ Trả lời ngắn gọn, thân thiện và thực tế."""
                 {"role": "user", "content": rag_prompt},
             ],
             temperature=0.7,
-            max_tokens=600,
+            max_completion_tokens=600,
         )
         return response.choices[0].message.content
 
