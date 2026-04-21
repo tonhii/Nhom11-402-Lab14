@@ -1,0 +1,115 @@
+# FOOD KNOWLEDGE BASE 4 - Plain Text Format
+# Danh sách 10 Món Ăn Mở Rộng Đồng Cấp
+# ============================================================
+
+## MONDESSERT 31: Cháo Lòng
+ID: chao_long
+Name: Cháo Lòng
+Description: Cháo ninh nhừ nấu bằng nước hầm xương và huyết lợn mượt mà, ăn kèm dồi trường, gan, phèo luộc và rau thơm.
+Tags: nóng, đậm đà, lạ miệng, lai rai, bữa sáng nạp năng lượng
+Calories: 380 kcal
+Ingredients: gạo tẻ, huyết lợn, lòng non, dồi, gan, rau húng xúi
+Suitable For: người mê nội tạng, bữa sáng bình dân
+Not Suitable For: người cholesterol/gout cao, bà bầu
+---
+
+## MONDESSERT 32: Bò Nhúng Dấm
+ID: bo_nhung_dam
+Name: Bò Nhúng Dấm
+Description: Món ăn quây quần tự làm chín thịt bò tại bàn với nước lẩu chua thanh vị dấm. Cuốn bánh tráng với rau xanh nêm mắm nêm.
+Tags: chua thanh, nhúng lẩu, cuốn, gia đình, cuối tuần
+Calories: 450 kcal
+Ingredients: thịt bò thái mỏng, nước dấm dứa, bánh tráng, rau rừng, mắm nêm
+Suitable For: ăn tiệc cùng gia đình, yêu thịt bò
+Not Suitable For: người kiêng đồ sống/nhúng tái, dạ dày đau dấm
+---
+
+## MONDESSERT 33: Bún Chả Cá
+ID: bun_cha_ca
+Name: Bún Chả Cá Đà Nẵng
+Description: Bún ngập mặn mà nước dùng hầm xương cá, chả cá thu dai giòn mặn mòi, hòa quyện với bí đỏ, bắp cải xắt nhuyễn.
+Tags: nước, cá, đậm đà, đặc sản biển, bữa trưa, bữa sáng
+Calories: 400 kcal
+Ingredients: bún, chả cá thu/thát lát, bí đỏ, bắp cải, ruốc
+Suitable For: người thích cá mặn mòi, ăn kiêng thịt đỏ
+Not Suitable For: dị ứng cá biển
+---
+
+## MONDESSERT 34: Lẩu Dê
+ID: lau_de
+Name: Lẩu Dê Thuốc Bắc
+Description: Nước lẩu tiềm các vị thuốc bắc thơm lừng, thịt dê thui da vàng ươm hầm nhừ, ăn với cải bẹ xanh, tàu hũ ky. Cực mồi.
+Tags: lẩu, nhậu, thuốc bắc, bổ dưỡng, đậm đà, nhóm bạn
+Calories: 600 kcal
+Ingredients: thịt dê thui da, kỳ tử, đẳng sâm, chao môn, tàu hũ ky
+Suitable For: tẩm bổ sức khỏe nam giới, ăn nhậu
+Not Suitable For: người không quen mùi dê, huyết áp cao do tính nóng
+---
+
+## MONDESSERT 35: Xôi Gà
+ID: xoi_ga
+Name: Xôi Gà Lạp Xưởng
+Description: Nắm xôi nếp trắng dẻo thơm, thêm đùi gà xé mỡ hành, lạp xưởng chiên cắt lát non mềm, trứng cút. Bữa sáng chắc bụng.
+Tags: dẻo, no lâu, cực béo, bữa sáng tiện lề đường
+Calories: 550 kcal
+Ingredients: gạo nếp, thịt gà xé, lạp xưởng, trứng cút, mỡ hành
+Suitable For: làm việc chân tay nặng nhọc cần no dai
+Not Suitable For: người béo phì, kiêng mỡ
+---
+
+## MONDESSERT 36: Gỏi Ngó Sen Tôm Thịt
+ID: goi_ngo_sen
+Name: Gỏi Ngó Sen Tôm Thịt
+Description: Ngó sen trắng muốt bẻ đoạn giòn bóp chua ngọt cùng tôm luộc đỏ au và thịt lợn ba rọi, hành phi đậu phộng. Món khai vị tiệc.
+Tags: chua ngọt, giòn rụm, nhẹ nhàng, khai vị, tiệc tùng
+Calories: 250 kcal
+Ingredients: ngó sen, tôm sú, thịt ba chỉ, nước mắm tỏi ớt, đậu phộng
+Suitable For: tiệc cưới, người ăn giảm cân
+Not Suitable For: dị ứng tôm, tiêu hóa sến
+---
+
+## MONDESSERT 37: Ốc Hương Xào Trứng Muối
+ID: oc_huong_trung_muoi
+Name: Ốc Hương Xào Trứng Muối
+Description: Ốc hương biển tươi xào quyện trong lớp xốt trứng muối béo ngậy, mặn ngọt tơi xốp, dùng bánh mì quẹt xốt ăn kèm.
+Tags: béo ngậy, hải sản, ăn vặt, tiệc nướng, đồ biển
+Calories: 400 kcal
+Ingredients: ốc hương biển, xốt trứng muối, bơ lạt, bánh mì
+Suitable For: dânghiền ốc, tín đồ trứng muối
+Not Suitable For: dị ứng đồ biển, người giảm cân ác liệt
+---
+
+## MONDESSERT 38: Gà Xé Phay
+ID: ga_xe_phay
+Name: Gỏi Gà Xé Phay hành tây
+Description: Thịt gà ta xé phay tẩm ướp chanh muối kết hợp cùng hành tây ngâm giòn và rau răm thơm nực mũi.
+Tags: chua thanh, dai, salad việt nam, khai vị
+Calories: 220 kcal
+Ingredients: ức gà ta, hành tây tím, rau răm, cốt chanh, đường đỏ
+Suitable For: ăn Eat clean, kiêng tinh bột, khai vị
+Not Suitable For: (hầu như ai cũng ăn được nếu kiêng cay)
+---
+
+## MONDESSERT 39: Bánh Khọt
+ID: banh_khot
+Name: Bánh Khọt Vũng Tàu
+Description: Bánh bằng bột gạo nhỏ xinh chiên ngập dầu giòn rệu, giữa có con tôm và mỡ hành đỏ au. Cuốn cải xanh chấm nước mắm chua ngọt.
+Tags: chiên giòn, béo, đồ biển, đi du lịch, đặc sản
+Calories: 450 kcal
+Ingredients: bột gạo, tôm tươi sống, cải xanh xà lách, tôm cháy
+Suitable For: người ăn giòn, thèm đồ Vũng Tàu
+Not Suitable For: dị ứng tôm, kiêng mỡ
+---
+
+## MONDESSERT 40: Kem Xôi
+ID: kem_xoi
+Name: Kem Xôi Dừa
+Description: Xôi nếp lá dứa dẻo lạnh màu xanh mát, phủ viên kem dừa béo buốt rặng, rải dừa khô nướng thơm giòn. Tráng miệng hiện đại.
+Tags: lạnh buốt, ngọt béo, giải khát, ăn vặt giới trẻ, tráng miệng
+Calories: 350 kcal
+Ingredients: xôi lá dứa lạnh, kem dừa, dừa khô sấy, sữa đặc
+Suitable For: giải nóng mùa hè, học sinh
+Not Suitable For: viêm họng, viêm amidan, tiểu đường
+---
+
+END OF KNOWLEDGE BASE
