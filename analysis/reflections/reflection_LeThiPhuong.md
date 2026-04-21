@@ -17,7 +17,7 @@
 ## 2. Kết quả đạt được (Deliverables)
 
 **Chỉ số đạt được:**
-- **Hit Rate:** 0.75 (tăng 22% so với baseline V1)
+- **Hit Rate:** 0.75 
 - **MRR:** 0.6
 
 ---
