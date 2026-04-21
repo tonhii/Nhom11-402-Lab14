@@ -4,29 +4,36 @@ class RetrievalEvaluator:
     def __init__(self):
         pass
 
-    def calculate_hit_rate(self, expected_ids: List[str], retrieved_ids: List[str], top_k: int = 3) -> float:
+    def calculate_hit_rate(self, ground_truth_ids: List[str], retrieved_ids: List[str], top_k: int = 3) -> float:
         """
-        TODO: Tính toán xem ít nhất 1 trong expected_ids có nằm trong top_k của retrieved_ids không.
+        Tính toán xem ít nhất 1 trong ground_truth_ids có nằm trong top_k của retrieved_ids không.
         """
+        if not ground_truth_ids:
+            return 0.0
+        
         top_retrieved = retrieved_ids[:top_k]
-        hit = any(doc_id in top_retrieved for doc_id in expected_ids)
+        hit = any(doc_id in top_retrieved for doc_id in ground_truth_ids)
         return 1.0 if hit else 0.0
 
-    def calculate_mrr(self, expected_ids: List[str], retrieved_ids: List[str]) -> float:
+    def calculate_mrr(self, ground_truth_ids: List[str], retrieved_ids: List[str]) -> float:
         """
-        TODO: Tính Mean Reciprocal Rank.
-        Tìm vị trí đầu tiên của một expected_id trong retrieved_ids.
-        MRR = 1 / position (vị trí 1-indexed). Nếu không thấy thì là 0.
+        Tính Mean Reciprocal Rank.
+        Tìm vị trí đầu tiên của một ground_truth_id trong retrieved_ids.
+        MRR = 1 / position (1-indexed). Nếu không thấy thì là 0.
         """
+        if not ground_truth_ids:
+            return 0.0
+
         for i, doc_id in enumerate(retrieved_ids):
-            if doc_id in expected_ids:
+            if doc_id in ground_truth_ids:
                 return 1.0 / (i + 1)
         return 0.0
 
-    async def evaluate_batch(self, dataset: List[Dict]) -> Dict:
+    def evaluate(self, ground_truth_ids: List[str], retrieved_ids: List[str]) -> Dict[str, float]:
         """
-        Chạy eval cho toàn bộ bộ dữ liệu.
-        Dataset cần có trường 'expected_retrieval_ids' và Agent trả về 'retrieved_ids'.
+        Hàm giao tiếp chuẩn: Trả về toàn bộ các chỉ số retrieval.
         """
-        # Placeholder logic
-        return {"avg_hit_rate": 0.85, "avg_mrr": 0.72}
+        return {
+            "hit_rate": self.calculate_hit_rate(ground_truth_ids, retrieved_ids),
+            "mrr": self.calculate_mrr(ground_truth_ids, retrieved_ids)
+        }
