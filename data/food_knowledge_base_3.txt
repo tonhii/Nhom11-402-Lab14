@@ -1,0 +1,115 @@
+# FOOD KNOWLEDGE BASE 3 - Plain Text Format
+# Danh sách 10 Món Ăn Mở Rộng Đồng Cấp
+# ============================================================
+
+## MONDESSERT 21: Bò Né
+ID: bo_ne
+Name: Bò Né Bít Tết Việt
+Description: Bò bít tết kiểu Việt Nam phục vụ trên chảo gang nóng xèo xèo, kèm trứng ốp la, pate thơm lừng và khoai tây chiên.
+Tags: mặn, béo, giàu đạm, nóng, bữa sáng, năng lượng
+Calories: 650 kcal
+Ingredients: thịt bò, trứng gà, pate, hành tây, ngò rí, khoai tây
+Suitable For: người mê thịt bò, bữa sáng cuối tuần
+Not Suitable For: người kiêng dầu mỡ, ăn chay
+---
+
+## MONDESSERT 22: Canh Chua Cá Lóc
+ID: canh_chua
+Name: Canh Chua Cá Lóc
+Description: Bát canh chua thanh mát đặc trưng miền Tây với cá lóc đồng ngọt thịt, vị chua từ me, giòn của bạc hà và giá đỗ.
+Tags: chua, ngọt, thanh mát, bữa trưa, bữa tối, gia đình
+Calories: 200 kcal
+Ingredients: cá lóc, me, cà chua, thơm (dứa), bạc hà, rau ngổ
+Suitable For: thời tiết oi bức, bữa cơm gia đình
+Not Suitable For: người dị ứng cá, người kiêng chua
+---
+
+## MONDESSERT 23: Thịt Kho Tàu
+ID: thit_kho_tau
+Name: Thịt Kho Tàu (Thịt Kho Hột Vịt)
+Description: Thịt ba chỉ kho rệu mềm tan trong miệng, trứng vịt thấm đẫm nước dừa màu nâu cánh gián. Đặc trưng dịp Tết.
+Tags: mặn, béo, ngọt, ngày Tết, truyền thống, gia đình
+Calories: 500 kcal
+Ingredients: thịt ba chỉ, trứng vịt, nước dừa tươi, nước mắm, đường
+Suitable For: bữa cơm truyền thống, người thích đồ béo ngậy
+Not Suitable For: người giảm cân, người bị mỡ máu cao, ăn chay
+---
+
+## MONDESSERT 24: Cá Kho Tộ
+ID: ca_kho_to
+Name: Cá Kho Tộ
+Description: Cá lóc hoặc cá trê kho keo sền sệt trong thố đất, mặn mà cay xè vị tiêu sọ, ăn rát cơm. Đi kèm cơm trắng là tuyệt phẩm.
+Tags: mặn, cay, mằn mặn, bữa tối, truyền thống miền Nam
+Calories: 350 kcal
+Ingredients: cá lóc/cá trê, nước mắm, đường, hành tím, tiêu sọ, ớt
+Suitable For: bữa tối trời mưa, mâm cơm dân dã
+Not Suitable For: người dị ứng cá mặn, người kiêng mặn
+---
+
+## MONDESSERT 25: Bánh Tráng Trộn
+ID: banh_trang_tron
+Name: Bánh Tráng Trộn
+Description: Món ăn vặt "quốc dân" với bánh tráng cắt sợi trộn đều bò khô, tẩm gia vị chua cay ngọt, trứng cút, xoài xanh.
+Tags: ăn vặt, chua, cay, giòn, đường phố, giới trẻ
+Calories: 350 kcal
+Ingredients: bánh tráng, khô bò, tép sấy, trứng cút, xoài xanh, rau răm
+Suitable For: học sinh sinh viên, ăn vặt buổi chiều
+Not Suitable For: bữa ăn chính, người dạ dày yếu
+---
+
+## MONDESSERT 26: Phở Gà
+ID: pho_ga
+Name: Phở Gà
+Description: Phiên bản phở dùng thịt gà ta dai giòn, nước dùng ngọt thanh vị xương gà và hành ngò, điểm thêm lá chanh xắt sợi.
+Tags: nước, thanh mát, bữa sáng, truyền thống, Hà Nội
+Calories: 350 kcal
+Ingredients: bánh phở, thịt gà ta, nước dùng gà, lá chanh, hành ngò
+Suitable For: người ốm, buổi sáng mùa đông, người không ăn được bò
+Not Suitable For: người ăn chay, người kiêng tinh bột
+---
+
+## MONDESSERT 27: Chả Lụa (Giò Lụa)
+ID: cha_lua
+Name: Chả Lụa
+Description: Thịt nạc thăn giã mịn, gói trong lá chuối và luộc chín. Miếng chả dẻo dai, thơm mùi lá chuối và nước mắm ngon.
+Tags: mặn, truyền thống, lễ Tết, ăn kèm, dai mịn
+Calories: 150 kcal (mỗi lát)
+Ingredients: thịt lợn nạc thăn, bột năng, nước mắm ngon, tiêu, lá chuối
+Suitable For: kẹp bánh mì, ăn cùng xôi cơm, tiệc Tết
+Not Suitable For: người ăn chay
+---
+
+## MONDESSERT 28: Miến Lươn
+ID: mien_luon
+Name: Miến Lươn Nghệ An
+Description: Sợi miến dong xào hoặc nấu nước cùng lươn chiên giòn rụm hoặc lươn xào mềm, nồng nàn hương răm, hành.
+Tags: mặn, đặc sản miền Trung, bổ dưỡng, đậm đà
+Calories: 450 kcal
+Ingredients: miến dong, lươn đồng, mộc nhĩ, giá đỗ, rau răm, hành khô
+Suitable For: người mê đặc sản, bữa sáng bổ dưỡng
+Not Suitable For: người sợ đồ tanh (nếu chế biến không khéo), ăn chay
+---
+
+## MONDESSERT 29: Nem Chua
+ID: nem_chua
+Name: Nem Chua Thanh Hóa
+Description: Thịt lợn lên men chua tự nhiên, trộn cùng bì lợn dai sần sật, có vị cay của ớt và chát vương vấn của lá đinh lăng.
+Tags: chua, cay, ăn vặt, lai rai, đặc sản
+Calories: 130 kcal (khoảng 3 chiếc)
+Ingredients: thịt nạc lên men, bì lợn, tỏi, ớt, lá đinh lăng/ổi
+Suitable For: dân nhậu, mồi uống bia, quà vặt
+Not Suitable For: bà bầu, dạ dày yếu (đồ sán sống)
+---
+
+## MONDESSERT 30: Bánh Canh Cua
+ID: banh_canh_cua
+Name: Bánh Canh Cua
+Description: Món sợi bột béo ngậy được nấu trong nước súp sền sệt đậm đà từ gạch cua, đầy ắp thịt cua, tôm, chả cua và huyết.
+Tags: sền sệt, đậm đà, hải sản, béo ngậy, bữa trưa, bữa tối
+Calories: 500 kcal
+Ingredients: sợi bánh canh bột lọc/bột gạo, thịt cua, tôm, chả cá, nấm rơm
+Suitable For: fan hải sản, người thích đồ súp đặc sệt
+Not Suitable For: người dị ứng tôm cua, kiêng calo cao
+---
+
+END OF KNOWLEDGE BASE

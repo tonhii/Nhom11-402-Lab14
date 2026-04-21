@@ -1,0 +1,115 @@
+# FOOD KNOWLEDGE BASE 2 - Plain Text Format
+# Danh sách 10 Món Ăn Mở Rộng Đồng Cấp
+# ============================================================
+
+## MONDESSERT 11: Bún Chả Hà Nội
+ID: bun_cha
+Name: Bún Chả
+Description: Thịt lợn nướng chả xiên và chả băm thơm lừng, ăn cùng bún tươi, rau sống và nước mắm chua ngọt thanh mát.
+Tags: mặn, nướng, bún, bữa trưa, bữa tối, truyền thống, Hà Nội
+Calories: 550 kcal
+Ingredients: bún, thịt lợn, đu đủ xanh, cà rốt, nước mắm, tỏi, ớt
+Suitable For: người thích thịt nướng, người thích ẩm thực miền Bắc
+Not Suitable For: người ăn chay, người kiêng ăn đồ nướng nhiều mỡ
+---
+
+## MONDESSERT 12: Bánh Cuốn
+ID: banh_cuon
+Name: Bánh Cuốn Nhân Thịt
+Description: Lớp bánh tráng từ bột gạo mỏng tang, dai mềm, cuộn nhân mộc nhĩ thịt băm, rắc hành phi thơm nức.
+Tags: mặn, mềm, bữa sáng, nhẹ bụng, truyền thống
+Calories: 250 kcal
+Ingredients: bột gạo, thịt băm, mộc nhĩ, hành phi, chả lụa, nước mắm
+Suitable For: bữa sáng nhẹ nhàng, người tiêu hóa kém
+Not Suitable For: người ăn chay
+---
+
+## MONDESSERT 13: Cao Lầu
+ID: cao_lau
+Name: Cao Lầu Hội An
+Description: Đặc sản Hội An với sợi mì dai màu vàng ươm, thịt xá xíu đậm đà, tóp mỡ giòn rụm và rau đắng đặc trưng.
+Tags: mặn, dai, ít nước, đặc sản, miền Trung, bữa trưa
+Calories: 400 kcal
+Ingredients: sợi cao lầu, thịt heo xá xíu, tóp mỡ, rau đắng, giá đỗ
+Suitable For: người thích khám phá đặc sản, người thích ăn đậm đà
+Not Suitable For: người ăn chay
+---
+
+## MONDESSERT 14: Bánh Bột Lọc
+ID: banh_bot_loc
+Name: Bánh Bột Lọc
+Description: Bánh dai trong suốt nhìn rõ nhân tôm thịt đỏ au bên trong. Thường gói bằng lá chuối, ăn cùng nước mắm ngọt cay.
+Tags: dai, cay, nhẹ nhàng, ăn vặt, bữa xế, miền Trung
+Calories: 150 kcal
+Ingredients: bột năng, tôm, thịt ba chỉ, lá chuối, nước mắm
+Suitable For: ăn lai rai buổi chiều, người thích đồ dai
+Not Suitable For: người dị ứng hải sản
+---
+
+## MONDESSERT 15: Nem Rán
+ID: nem_ran
+Name: Nem Rán (Chả Giò)
+Description: Giòn rụm lớp vỏ ngoài, bên trong nhân thịt băm, miến, mộc nhĩ đậm đà. Món ăn không thể thiếu dịp lễ Tết.
+Tags: giòn, mặn, chiên rán, tiệc tùng, truyền thống
+Calories: 200 kcal/cuốn
+Ingredients: bánh đa nem, thịt heo, miến, nấm hương, mộc nhĩ, trứng
+Suitable For: tiệc gia đình, ăn cùng bún hoặc cơm
+Not Suitable For: người kiêng dầu mỡ, người giảm cân
+---
+
+## MONDESSERT 16: Bún Đậu Mắm Tôm
+ID: bun_dau
+Name: Bún Đậu Mắm Tôm
+Description: Bún lá ép chặt, đậu hũ chiên giòn, thịt luộc, chả cốm ăn kèm mắm tôm pha chanh ớt sủi bọt thơm lừng.
+Tags: mặn, giòn, mùi nồng, đường phố, nhóm bạn, bữa trưa
+Calories: 600 kcal
+Ingredients: bún, đậu hũ, thịt luộc, chả cốm, mắm tôm, rau thơm
+Suitable For: nhóm bạn trẻ, người mê mắm tôm
+Not Suitable For: người không ăn được mắm tôm, người ăn chay
+---
+
+## MONDESSERT 17: Xôi Xéo
+ID: xoi_xeo
+Name: Xôi Xéo
+Description: Xôi nếp nhuộm màu vàng ươm của nghệ, phủ đậu xanh nghiền nát, rưới mỡ hành và hành phi giòn tan.
+Tags: dẻo, béo, no lâu, bữa sáng, tiện lợi, truyền thống
+Calories: 450 kcal
+Ingredients: gạo nếp, đậu xanh, nghệ, mỡ lợn, hành phi
+Suitable For: sinh viên, người cần năng lượng buổi sáng, người ăn chay (nếu dùng dầu thực vật)
+Not Suitable For: người kiêng tinh bột, người khó tiêu
+---
+
+## MONDESSERT 18: Hủ Tiếu Nam Vang
+ID: hu_tieu
+Name: Hủ Tiếu Nam Vang
+Description: Món hủ tiếu đa sắc với tôm, gan, thịt băm, trứng cút. Nước dùng thanh ngọt hầm từ xương ống và khô mực.
+Tags: nước, mặn, đậm đà, bữa sáng, bữa tối, miền Nam
+Calories: 450 kcal
+Ingredients: hủ tiếu, tôm, thịt băm, gan lợn, tỏi phi, hẹ
+Suitable For: fan hải sản và thịt, người thích đồ nước
+Not Suitable For: người ăn chay, người dị ứng tôm
+---
+
+## MONDESSERT 19: Cơm Rang Dưa Bò
+ID: com_rang_dua_bo
+Name: Cơm Rang Dưa Bò
+Description: Hạt cơm tơi xốp, vàng óng, ăn kèm thịt bò xào dưa chua đậm vị, giòn giòn kích thích vị giác cực mạnh.
+Tags: mặn, chua, no lâu, chiên, bữa trưa, bữa tối
+Calories: 700 kcal
+Ingredients: cơm nguội, thịt bò, dưa cải muối chua, trứng, tỏi
+Suitable For: người làm việc nặng cần no, người thích thịt bò
+Not Suitable For: người yếu dạ dày (dưa chua), người giảm cân
+---
+
+## MONDESSERT 20: Chè Chuối
+ID: che_chuoi
+Name: Chè Chuối Nước Cốt Dừa
+Description: Chuối sứ chín mùi nấu mềm cùng nước cốt dừa béo ngậy, điểm xuyết hạt trân châu dai dai và đậu phộng rang.
+Tags: ngọt, béo, ẩm thực đường phố, tráng miệng, ăn vặt
+Calories: 300 kcal
+Ingredients: chuối sứ, nước cốt dừa, bột báng, đậu phộng, đường
+Suitable For: người hảo ngọt, tráng miệng sau bữa chính
+Not Suitable For: người bệnh tiểu đường, kiêng đồ ngọt
+---
+
+END OF KNOWLEDGE BASE

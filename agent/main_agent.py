@@ -8,24 +8,141 @@ from dotenv import load_dotenv
 
 load_dotenv()
 # ============================================================
-# LOAD KNOWLEDGE BASE từ file JSON
+# LOAD KNOWLEDGE BASE từ file (JSON/TXT/MD)
 # ============================================================
 
 def load_knowledge_base(path: str = "data/food_knowledge_base.json") -> List[Dict]:
     """
-    Đọc knowledge base từ file JSON bên ngoài.
+    Đọc knowledge base từ file bên ngoài.
+    Hỗ trợ định dạng: JSON, TXT, Markdown
     Dễ dàng thêm/sửa/xóa món mà không cần chạm vào code.
+    
+    Args:
+        path: Đường dẫn file (có thể là .json, .txt, .md)
+        
+    Returns:
+        List[Dict]: Danh sách các món ăn trong structured format
     """
     kb_path = Path(path)
     if not kb_path.exists():
         raise FileNotFoundError(
             f"Không tìm thấy file knowledge base: '{path}'\n"
-            f"Hãy đặt file food_knowledge_base.json cùng thư mục với script này."
+            f"Hỗ trợ format: .json, .txt, .md"
         )
-    with open(kb_path, encoding="utf-8") as f:
-        data = json.load(f)
-    print(f"✅ Đã load {len(data)} món ăn từ '{kb_path.resolve()}'")
+    
+    suffix = kb_path.suffix.lower()
+    
+    if suffix == ".json":
+        with open(kb_path, encoding="utf-8") as f:
+            data = json.load(f)
+    elif suffix == ".txt":
+        # Parse plain text format
+        with open(kb_path, encoding="utf-8") as f:
+            content = f.read()
+        data = _parse_txt_knowledge_base(content)
+    elif suffix == ".md":
+        # Parse markdown format
+        with open(kb_path, encoding="utf-8") as f:
+            content = f.read()
+        data = _parse_md_knowledge_base(content)
+    else:
+        raise ValueError(f"Format không hỗ trợ: {suffix}. Chỉ hỗ trợ .json, .txt, .md")
+    
+    print(f"✅ Đã load {len(data)} món ăn từ '{kb_path.resolve()}' (format: {suffix})")
     return data
+
+
+def _parse_txt_knowledge_base(content: str) -> List[Dict]:
+    """Parse plain text knowledge base format."""
+    foods = []
+    sections = content.split("## MONDESSERT")
+    
+    for section in sections[1:]:  # Skip header
+        lines = section.strip().split("\n")
+        food_dict = {}
+        
+        for line in lines:
+            line = line.strip()
+            if not line or line.startswith("---"):
+                continue
+            
+            if ": " in line:
+                key, value = line.split(": ", 1)
+                key = key.strip().lower().replace(" ", "_")
+                
+                if key == "id":
+                    food_dict["id"] = value.strip()
+                elif key == "name":
+                    food_dict["name"] = value.strip()
+                elif key == "description":
+                    food_dict["description"] = value.strip()
+                elif key == "tags":
+                    food_dict["tags"] = [t.strip() for t in value.split(",")]
+                elif key == "calories":
+                    food_dict["calories"] = int(value.split()[0])
+                elif key == "ingredients":
+                    food_dict["ingredients"] = [i.strip() for i in value.split(",")]
+                elif key == "suitable_for":
+                    food_dict["suitable_for"] = [s.strip() for s in value.split(",")]
+                elif key == "not_suitable_for":
+                    food_dict["not_suitable_for"] = [s.strip() for s in value.split(",")]
+        
+        if "id" in food_dict:
+            foods.append(food_dict)
+    
+    return foods
+
+
+def _parse_md_knowledge_base(content: str) -> List[Dict]:
+    """Parse markdown knowledge base format."""
+    foods = []
+    sections = content.split("### ")
+    
+    for section in sections[1:]:  # Skip header
+        lines = section.strip().split("\n")
+        if not lines:
+            continue
+            
+        food_dict = {}
+        in_table = False
+        
+        for i, line in enumerate(lines):
+            line = line.strip()
+            
+            # Extract food name from heading
+            if i == 0:
+                # Format: "1️⃣ **Name**" or similar
+                name_match = line.split("**")
+                if len(name_match) >= 2:
+                    food_dict["name"] = name_match[1].strip()
+            
+            # Parse table rows
+            if "|" in line and not line.startswith("|---"):
+                parts = [p.strip() for p in line.split("|")[1:-1]]
+                if len(parts) == 2:
+                    key, value = parts[0].lower(), parts[1]
+                    
+                    if "id" in key:
+                        food_dict["id"] = value.replace("`", "").strip()
+                    elif "mô tả" in key or "description" in key:
+                        food_dict["description"] = value.strip()
+                    elif "tags" in key:
+                        food_dict["tags"] = [t.strip() for t in value.split(",")]
+                    elif "calo" in key or "calories" in key:
+                        calo_num = "".join(filter(str.isdigit, value))
+                        if calo_num:
+                            food_dict["calories"] = int(calo_num)
+                    elif "thành phần" in key or "ingredients" in key:
+                        food_dict["ingredients"] = [i.strip() for i in value.split(",")]
+                    elif "thích hợp" in key and "không" not in key:
+                        food_dict["suitable_for"] = [s.strip() for s in value.split(",")]
+                    elif "không thích hợp" in key:
+                        food_dict["not_suitable_for"] = [s.strip() for s in value.split(",")]
+        
+        if "id" in food_dict and "name" in food_dict:
+            foods.append(food_dict)
+    
+    return foods
 
 
 # ============================================================
@@ -164,10 +281,9 @@ Trả lời ngắn gọn, thân thiện và thực tế."""
             "metadata": {
                 "model": "gpt-4o-mini",
                 "retrieved_count": len(retrieved_foods),
-
                 "retrieved_ids": [f["id"] for f in retrieved_foods],
                 "extracted_preferences": preferences,
-                "sources": ["food_knowledge_base.json"],
+                "sources": ["food_knowledge_base.json", "food_knowledge_base.txt", "food_knowledge_base.md"],
             },
         }
 

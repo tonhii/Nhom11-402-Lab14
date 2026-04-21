@@ -1,69 +1,51 @@
-# 📊 Báo cáo Phân tích Thất bại (Failure Analysis Report)
+# Báo cáo Phân tích Thất bại (Failure Analysis Report)
 
-**Thành viên thực hiện:** Hà Hữu An  
-**Phiên bản Agent:** FoodAgent-RAG-v1  
-**Ngày thực hiện:** 21/04/2026  
+## 1. Tổng quan Benchmark
+- **Tổng số cases:** 50
+- **Tỉ lệ Pass/Fail:** 29/21
+- **Điểm RAGAS trung bình:**
+    - Faithfulness: 0.9
+    - Relevancy: 0.8
+    - hit_rate: 0.66
+    - mrr: 0.51
+- **Điểm LLM-Judge trung bình:** 2.8 / 5.0
 
----
+## 2. Phân nhóm lỗi (Failure Clustering)
+| Nhóm lỗi | Số lượng | Nguyên nhân dự kiến |
+|----------|---------|---------------------|
+| **Retrieval Miss** | 13 | Do kỹ thuật Keyword Matching đơn giản không bắt được ý định người dùng (Semantic gap). |
+| **Constraint/Logic Error** | 8 | Agent tìm được context nhưng không hiểu sâu các ràng buộc về sức khỏe hoặc sở thích tinh tế. |
 
-## 1. Tổng quan Kết quả Benchmark
-*Dữ liệu này sẽ được điền sau khi có kết quả từ `reports/summary.json`*
+## 3. Phân tích 5 Whys (3 case tiêu biểu)
 
-| Chỉ số chính | Kết quả | Mục tiêu (KPI) |
-| :--- | :--- | :--- |
-| **Tổng số test cases** | 50 | 50 |
-| **Tỉ lệ Pass (Score >= 3.5)** | [___]% | > 85% |
-| **Retrieval Hit Rate** | [___] | > 0.90 |
-| **Retrieval MRR** | [___] | > 0.80 |
-| **Multi-Judge Agreement** | [___]% | > 90% |
+### Case #1: Lỗi tìm kiếm (Retrieval Miss)
+1. **Symptom:** User hỏi món ăn cụ thể nhưng Agent trả lời không tìm thấy hoặc trả về món không liên quan.
+2. **Why 1:** Tại sao không tìm thấy? -> Vector DB không trả về kết quả có điểm tương đồng cao.
+3. **Why 2:** Tại sao điểm tương đồng thấp? -> Từ khóa trong câu hỏi (ví dụ: "giảm cân") không xuất hiện trong metadata của món ăn.
+4. **Why 3:** Tại sao metadata thiếu? -> Quy trình gán nhãn dữ liệu (indexing) còn thủ công và chưa bao quát.
+5. **Why 4:** Tại sao không bao quát? -> Chiến lược Chunking cố định làm mất ngữ nghĩa.
+6. **Root Cause:** Hệ thống thiếu bước **Query Expansion** (mở rộng truy vấn) để hiểu các từ đồng nghĩa.
 
----
+### Case #2: Yêu cầu "Michelin" giá rẻ (Query: "Tôi muốn ăn Michelin stars mà giá dưới 50k")
+1. **Symptom:** Agent gợi ý món "Gỏi Cuốn" và khẳng định giá 50k là hợp lý, bỏ qua hoàn toàn yêu cầu về sao Michelin.
+2. **Why 1:** Tại sao Agent bỏ qua từ khóa "Michelin"? -> Vì trong Knowledge Base không có món nào có tag hoặc metadata liên quan đến "Michelin" để hệ thống khớp dữ liệu.
+3. **Why 2:** Tại sao không có tag mà Agent vẫn cố trả lời? -> Vì Agent được lập trình để luôn ưu tiên việc hỗ trợ người dùng thay vì từ chối yêu cầu.
+4. **Why 3:** Tại sao Agent không biết Michelin là tiêu chuẩn cao cấp? -> Vì LLM không được cung cấp đủ kiến thức về các tiêu chuẩn ẩm thực thế giới trong System Prompt.
+5. **Why 4:** Tại sao không có ngưỡng lọc (threshold) cho kết quả tìm kiếm? -> Vì hệ thống Retrieval hiện tại mặc định trả về kết quả Top-K tốt nhất bất kể độ tương đồng thực tế thấp.
+6. **Why 5:** Tại sao không có bước kiểm soát chất lượng đầu ra? -> Do kiến trúc hệ thống thiếu lớp "Verification" để so sánh yêu cầu của user với nội dung context trước khi trả lời.
+7. **Root Cause:** **Thiếu cơ chế nhận diện thông tin nằm ngoài phạm vi kiến thức (OOD) và lớp kiểm soát logic đầu ra (Output Verification).**
 
-## 2. Phân cụm lỗi (Failure Clustering)
-*Phân tích các trường hợp bị Judge chấm điểm thấp (< 3.0) và nhóm chúng vào các nhóm nguyên nhân chính.*
-
-| Nhóm lỗi | Số lượng | Tỉ lệ | Nguyên nhân dự kiến (Hypothesis) |
-| :--- | :---: | :---: | :--- |
-| **Retrieval Miss** | [__] | [__]% | Keyword matching không bắt được ý định người dùng. |
-| **Hallucination** | [__] | [__]% | LLM tự bịa thông tin không có trong context. |
-| **Constraint Violation** | [__] | [__]% | Không tuân thủ các ràng buộc (ví dụ: vẫn gợi ý món cay khi user yêu cầu không cay). |
-| **Tone & Style** | [__] | [__]% | Trả lời quá ngắn hoặc không đúng phong cách chuyên gia. |
-| **Lỗi khác** | [__] | [__]% | Các trường hợp đặc biệt, lỗi logic hoặc out-of-scope. |
-
----
-
-## 3. Phân tích nguyên nhân gốc rễ (5 Whys Analysis)
-*Chọn ra 3 trường hợp tệ nhất hoặc tiêu biểu nhất để phân tích sâu.*
-
-### 🔍 Case #1: [Mô tả ngắn về lỗi]
-*   **Symptom (Triệu chứng):** Agent trả lời [___] trong khi yêu cầu là [___].
-*   **Why 1:** Tại sao Agent trả lời sai? -> [LLM không có thông tin chính xác trong context]
-*   **Why 2:** Tại sao context lại thiếu thông tin đó? -> [Retriever không tìm thấy document phù hợp]
-*   **Why 3:** Tại sao Retriever không tìm thấy? -> [Từ khóa trong câu hỏi không khớp với nội dung tài liệu]
-*   **Why 4:** Tại sao không khớp? -> [Chiến lược Chunking hoặc Indexing quá đơn giản]
-*   **Why 5 (Root Cause):** [Thiếu bước Semantic Search hoặc Reranking để hiểu ngữ nghĩa]
-
-### 🔍 Case #2: [Mô tả ngắn về lỗi]
-*   **Symptom:** ...
-*   **Why 1-5:** ...
-*   **Root Cause:** [Vấn đề ở System Prompt chưa đủ chặt chẽ]
-
-### 🔍 Case #3: [Mô tả ngắn về lỗi]
-*   **Symptom:** ...
-*   **Why 1-5:** ...
-*   **Root Cause:** [Dữ liệu đầu vào (Knowledge Base) bị thiếu hoặc sai lệch]
-
----
+### Case #3: Yêu cầu về chế độ ăn đặc biệt (Query: "Tôi là vegan, kiêng gluten, dị ứng hạt...")
+1. **Symptom:** Agent gợi ý món Salad Rau Củ nhưng không thể xác nhận độ an toàn tuyệt đối về Gluten và thành phần mắm.
+2. **Why 1:** Tại sao Agent không chắc chắn? -> Vì trong context trả về chỉ có mô tả chung chung, không liệt kê chi tiết từng thành phần gia vị.
+3. **Why 2:** Tại sao dữ liệu thiếu chi tiết? -> Vì cấu trúc Knowledge Base (JSON) hiện tại chỉ tập trung vào thông tin thương mại, chưa có cấu trúc dữ liệu kỹ thuật về thành phần.
+4. **Why 3:** Tại sao không thể suy luận từ tên món? -> Vì LLM không có đủ dữ liệu về quy trình chế biến thực tế của nhà hàng (ví dụ: sốt salad có chứa mắm hay không).
+5. **Why 4:** Tại sao không có bộ quy tắc an toàn cho người dị ứng? -> Hệ thống chưa được tích hợp lớp Logic Guardrails để xử lý các yêu cầu nhạy cảm liên quan đến sức khỏe.
+6. **Why 5:** Tại sao kiến trúc chưa hỗ trợ Guardrails? -> Do thiết kế ban đầu chỉ tập trung vào tính năng gợi ý món ăn cơ bản, chưa tính đến các kịch bản người dùng có hạn chế đặc biệt.
+7. **Root Cause:** **Dữ liệu Knowledge Base quá mỏng và thiếu lớp Guardrails chuyên biệt cho an toàn thực phẩm.**
 
 ## 4. Kế hoạch cải tiến (Action Plan)
-*Dựa trên các Root Cause đã tìm ra, đề xuất các thay đổi cụ thể.*
-
-| Độ ưu tiên | Hành động cải tiến | Module ảnh hưởng | Kết quả kỳ vọng |
-| :--- | :--- | :--- | :--- |
-| **Cao (P0)** | [___] | Prompt/Retriever | Tăng Hit Rate lên > 0.9 |
-| **Trung bình (P1)** | [___] | engine/llm_judge.py | Tăng độ chính xác của Judge |
-| **Thấp (P2)** | [___] | data/synthetic_gen.py | Bổ sung thêm các ca khó (Hard cases) |
-
----
-
-*Ghi chú: File này được chuẩn bị cấu trúc bởi Hà Hữu An - Giờ 1 Lab 14.*
+- [ ] **P0:** Cập nhật Knowledge Base: Gán thêm các tag metadata như `Dễ tiêu hóa`, `Đồ nóng`, `Đồ lạnh`, `Giảm cân`.
+- [ ] **P0:** Triển khai **Hybrid Search** (kết hợp Keyword + Semantic Search) để giảm lỗi Retrieval.
+- [ ] **P1:** Thêm bước **Reranking** để sắp xếp lại kết quả tìm kiếm dựa trên độ phù hợp thực tế với câu hỏi.
+- [ ] **P1:** Bổ sung **System Prompt** với bộ quy tắc an toàn (ví dụ: "Nếu user đau bụng, tuyệt đối không gợi ý đồ sống/lạnh").

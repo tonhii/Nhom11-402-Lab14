@@ -22,7 +22,9 @@
 
 ## 2. Nội dung công việc đã thực hiện
 
-### 2.1 Xây dựng Knowledge Base
+## 2. Nội dung công việc đã thực hiện
+
+### 2.1 Xây dựng Knowledge Base (3 Format)
 - **Số lượng:** 10 món ăn Việt Nam tiêu biểu
 - **Danh sách:** Phở Bò, Bánh Mì, Bún Bò Huế, Cơm Tấm, Gỏi Cuốn, Bánh Xèo, Cháo Gà, Mì Quảng, Salad Ức Bơ, Lẩu Thái
 - **Mỗi món gồm:**
@@ -30,6 +32,17 @@
   - Tên Việt Nam
   - Mô tả chi tiết: thành phần, vị cảm, thích hợp cho ai
 - **Chiến lược:** Bao phủ đa dạng: từ đồ ăn đường phố (rẻ) → nhà hàng (đắt), từ nhẹ nhàng → nặng nề, từ không cay → cay nồng
+
+**📁 File Knowledge Base (3 format):**
+1. **`food_knowledge_base.json`** - Structured JSON format (dùng cho parsing)
+2. **`food_knowledge_base.txt`** - Plain text format (human-readable, dễ edit)
+3. **`food_knowledge_base.md`** - Markdown format (formatted tables, dễ read)
+
+**Lợi ích đa format:**
+- JSON: Parser nhanh, structured, dễ integrate
+- TXT: Dễ edit thủ công, không cần công cụ đặc biệt
+- MD: Pretty display, bảng HTML, dễ documentation
+- **Agent hỗ trợ tất cả 3 format** → Flexible, scalable
 
 ### 2.2 Sinh dữ liệu 50 test cases
 
@@ -102,7 +115,7 @@
 
 ## 3. 📊 Kết quả đạt được (Deliverables)
 
-**File `data/golden_set.jsonl` hoàn thiện:**
+✅ **File `data/golden_set.jsonl` hoàn thiện:**
 - **Số lượng:** 50 test cases (đúng theo spec)
 - **Định dạng:** JSONL (mỗi dòng 1 JSON object)
 - **Có đầy đủ thông tin:** question, expected_answer, ground_truth_ids, context, metadata
@@ -111,16 +124,29 @@
 - **Red Teaming:** 15 hard cases để test giới hạn
 - **Encoding:** UTF-8 (hỗ trợ Tiếng Việt)
 
+✅ **Food Knowledge Base (3 Format):**
+- **`food_knowledge_base.json`** - Structured JSON (dùng cho production code)
+- **`food_knowledge_base.txt`** - Plain text (dễ edit thủ công, 80+ lines)
+- **`food_knowledge_base.md`** - Markdown tables (pretty display, 200+ lines)
+- **Mỗi format chứa:** 10 món ăn Việt Nam, đầy đủ metadata (ID, tags, calo, ingredients, suitable_for, not_suitable_for)
+
+✅ **Agent Enhancement (`agent/main_agent.py`):**
+- Updated `load_knowledge_base()` với hỗ trợ multi-format loader
+- Hàm helpers: `_parse_txt_knowledge_base()`, `_parse_md_knowledge_base()`
+- Auto-detect format từ file extension
+- Agent có thể load từ bất kỳ format nào (JSON/TXT/MD) mà không thay đổi logic
+
 | Chỉ số | Giá trị |
 |-------|--------|
-| Tổng cases | 50 |
-| Easy | ~10 (20%) |
-| Medium | ~25 (50%) |
-| Hard | ~15 (30%) |
-| Food items | 10 |
-| Ground Truth IDs | 100% |
+| Tổng golden_set cases | 50 |
+| Easy cases | ~10 (20%) |
+| Medium cases | ~25 (50%) |
+| Hard/Adversarial cases | ~15 (30%) |
+| Food items trong KB | 10 |
+| KB format hỗ trợ | 3 (JSON, TXT, MD) |
+| Ground Truth IDs coverage | 100% |
 | Context coverage | 100% |
-| Metadata | 100% |
+| Metadata completeness | 100% |
 
 ---
 
@@ -145,6 +171,22 @@
 - **Không mơ hồ:** Mỗi `ground_truth_ids` rõ ràng, có thể verify được
 - **Chấp nhận multiple correct answers:** VD: "Muốn ăn cay" → [bun_bo_hue, lau_thai] (cả 2 đều đúng)
 - **Xử lý edge cases:** Hard cases có `ground_truth_ids: []` (không có đáp án perfect) để test Agent nhận ra giới hạn
+
+### 4.4 Multi-Format Knowledge Base Support ✨
+- **Tạo 3 format cho Knowledge Base:**
+  - **JSON**: Machine-readable, fast parsing, structured
+  - **TXT**: Plain text, human-editable, no tools needed
+  - **MD**: Markdown tables, pretty display, documentation-friendly
+- **Agent enhancement:**
+  - Hàm `load_knowledge_base()` auto-detect format từ file extension
+  - `_parse_txt_knowledge_base()`: Parse plain text fields
+  - `_parse_md_knowledge_base()`: Parse markdown tables
+  - Unified output: All formats → same internal representation
+- **Lợi ích:**
+  - Developer: Dùng JSON cho production code (fast)
+  - Data analyst: Edit TXT/MD trực tiếp mà không chạm code
+  - Documentation: MD format là self-documenting
+  - **Flexibility**: Có thể switch format mà không đổi agent code
 
 ---
 
