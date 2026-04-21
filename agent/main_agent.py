@@ -288,7 +288,7 @@ Trả lời ngắn gọn, thân thiện và thực tế."""
             "metadata": {
                 "model": "gpt-4o-mini",
                 "retrieved_count": len(retrieved_foods),
-                "retrieved_foods": [f["name"] for f in retrieved_foods],
+                "retrieved_ids": [f["id"] for f in retrieved_foods],
                 "extracted_preferences": preferences,
                 "sources": ["food_knowledge_base"],
             },
