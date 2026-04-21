@@ -30,9 +30,7 @@ class RetrievalEvaluator:
         return 0.0
 
     def evaluate(self, ground_truth_ids: List[str], retrieved_ids: List[str]) -> Dict[str, float]:
-        """
-        Hàm giao tiếp chuẩn: Trả về toàn bộ các chỉ số retrieval.
-        """
+
         return {
             "hit_rate": self.calculate_hit_rate(ground_truth_ids, retrieved_ids),
             "mrr": self.calculate_mrr(ground_truth_ids, retrieved_ids)
