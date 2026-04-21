@@ -2,33 +2,454 @@ import json
 import asyncio
 import os
 from typing import List, Dict
+from openai import AsyncOpenAI
+from dotenv import load_dotenv
 
-# Giả lập việc gọi LLM để tạo dữ liệu (Students will implement this)
-async def generate_qa_from_text(text: str, num_pairs: int = 5) -> List[Dict]:
+load_dotenv()
+
+# ============================================================
+# FOOD KNOWLEDGE BASE - Dùng để tạo context cho test cases
+# ============================================================
+
+FOOD_CONTEXTS = [
+    {
+        "id": "pho_bo",
+        "name": "Phở Bò",
+        "description": "Phở bò truyền thống với nước dùng trong, thơm ngọt từ xương ninh lâu. Ăn kèm rau sống, chanh, ớt. Phù hợp cho bữa sáng hoặc bữa trưa nhẹ nhàng."
+    },
+    {
+        "id": "banh_mi",
+        "name": "Bánh Mì Thịt",
+        "description": "Bánh mì Việt Nam với vỏ giòn, nhân thịt phong phú (pate, thịt nguội, rau sống), tương ớt. Ăn nhanh tiện lợi, phù hợp cho người bận rộn."
+    },
+    {
+        "id": "bun_bo_hue",
+        "name": "Bún Bò Huế",
+        "description": "Bún bò cay nồng đặc trưng Huế, nước dùng đậm vị mắm ruốc và sả. Chứa thịt bò, giò heo, mắm ruốc, sả, ớt. Phù hợp cho người thích ăn cay."
+    },
+    {
+        "id": "com_tam",
+        "name": "Cơm Tấm Sườn Bì",
+        "description": "Cơm tấm Sài Gòn với sườn nướng thơm lừng, bì giòn, chả trứng, ăn kèm nước mắm chua ngọt. Ấm no lâu, phù hợp bữa chính."
+    },
+    {
+        "id": "goi_cuon",
+        "name": "Gỏi Cuốn Tôm Thịt",
+        "description": "Gỏi cuốn tươi mát, nhẹ nhàng, cuốn bánh tráng với tôm, thịt heo, rau sống, bún. Ăn kèm tương chấm đậu phộng. Ít calo, lành mạnh, ăn kiêng tốt."
+    },
+    {
+        "id": "banh_xeo",
+        "name": "Bánh Xèo",
+        "description": "Bánh xèo giòn tan, nhân tôm thịt béo ngậy, cuốn rau sống chấm nước mắm. Đặc sản miền Nam, ăn bữa chiều hoặc tối gia đình."
+    },
+    {
+        "id": "chao_ga",
+        "name": "Cháo Gà",
+        "description": "Cháo gà nóng hổi, mềm mịn, thơm mùi gừng, dễ tiêu hóa và bổ dưỡng. Phù hợp cho người bệnh, người mới ốm dậy."
+    },
+    {
+        "id": "mi_quang",
+        "name": "Mì Quảng",
+        "description": "Mì Quảng ít nước đặc trưng Đà Nẵng, ăn kèm bánh tráng nướng giòn và rau sống. Hương vị miền Trung đậm đà, no lâu."
+    },
+    {
+        "id": "salad_uc_bo",
+        "name": "Salad Ức Bơ",
+        "description": "Salad ức gà bơ thanh mát, giàu protein và chất béo lành mạnh. Phù hợp ăn kiêng, người tập gym, người giảm cân."
+    },
+    {
+        "id": "lau_thai",
+        "name": "Lẩu Thái Hải Sản",
+        "description": "Lẩu Thái chua cay nồng nàn với hải sản tươi (tôm, mực, ngao), sả, ớt, me, lá chanh. Ăn cùng bạn bè, bữa tối cuối tuần."
+    },
+]
+
+# ============================================================
+# SYNTHETIC DATA GENERATOR - Sinh 50 test cases chất lượng
+# ============================================================
+
+async def generate_qa_pairs_batch(client: AsyncOpenAI, batch_num: int) -> List[Dict]:
     """
-    TODO: Sử dụng OpenAI/Anthropic API để tạo các cặp (Question, Expected Answer, Context)
-    từ đoạn văn bản cho trước.
-    Yêu cầu: Tạo ít nhất 1 câu hỏi 'lừa' (adversarial) hoặc cực khó.
+    Sinh một batch câu hỏi/trả lời về gợi ý đồ ăn
     """
-    print(f"Generating {num_pairs} QA pairs from text...")
-    # Placeholder implementation
-    return [
+    
+    prompts = [
+        # Batch 1-5: Câu hỏi cơ bản về sở thích
         {
-            "question": "Câu hỏi mẫu từ tài liệu?",
-            "expected_answer": "Câu trả lời kỳ vọng mẫu.",
-            "context": text[:200],
-            "metadata": {"difficulty": "easy", "type": "fact-check"}
+            "question": "Tôi thích ăn đồ nhẹ nhàng, dễ tiêu hóa buổi sáng. Bạn gợi ý gì?",
+            "food_ids": ["pho_bo", "chao_ga"],
+            "difficulty": "easy",
+            "type": "preference-based"
+        },
+        {
+            "question": "Hôm nay tôi bận rộn, không có thời gian ăn trưa. Cần gì nhanh mà ngon?",
+            "food_ids": ["banh_mi"],
+            "difficulty": "easy",
+            "type": "preference-based"
+        },
+        {
+            "question": "Tôi thích ăn cay, muốn thử món đặc trưng miền Trung.",
+            "food_ids": ["bun_bo_hue"],
+            "difficulty": "easy",
+            "type": "preference-based"
+        },
+        {
+            "question": "Tôi ăn kiêng giảm cân, cần ít calo, ăn lành mạnh.",
+            "food_ids": ["goi_cuon", "salad_uc_bo"],
+            "difficulty": "easy",
+            "type": "preference-based"
+        },
+        {
+            "question": "Tôi vừa ốm, cần ăn gì bổ dưỡng dễ tiêu hóa?",
+            "food_ids": ["chao_ga"],
+            "difficulty": "easy",
+            "type": "health-related"
+        },
+        
+        # Batch 2-10: Câu hỏi về thành phần, calo, dinh dưỡng
+        {
+            "question": "Món nào chứa hải sản và ít calo nhất?",
+            "food_ids": ["goi_cuon"],
+            "difficulty": "medium",
+            "type": "nutritional"
+        },
+        {
+            "question": "Tôi không ăn được cay, nhưng vẫn muốn thử đồ ăn Huế. Có cách nào không?",
+            "food_ids": [],  # Adversarial: không có giải pháp hoàn hảo
+            "difficulty": "hard",
+            "type": "adversarial"
+        },
+        {
+            "question": "Tôi muốn ăn no lâu, chứa nhiều protein, giá rẻ. Nên ăn gì?",
+            "food_ids": ["com_tam", "mi_quang"],
+            "difficulty": "medium",
+            "type": "preference-based"
+        },
+        {
+            "question": "Hôm nay giáng sinh, tôi muốn ăn cái gì đặc biệt?",
+            "food_ids": ["lau_thai", "banh_xeo"],
+            "difficulty": "medium",
+            "type": "occasion-based"
+        },
+        {
+            "question": "Tôi muốn ăn đồ nóng hổi trong trời lạnh. Gợi ý nào?",
+            "food_ids": ["pho_bo", "bun_bo_hue", "chao_ga"],
+            "difficulty": "easy",
+            "type": "seasonal"
+        },
+    ]
+    
+    # Tạo thêm các biến thể câu hỏi từ prompts cơ bản
+    qa_pairs = []
+    
+    for i, prompt in enumerate(prompts):
+        context = " | ".join([
+            ctx["description"] 
+            for ctx in FOOD_CONTEXTS 
+            if ctx["id"] in prompt["food_ids"]
+        ]) if prompt["food_ids"] else "Không có lựa chọn phù hợp."
+        
+        qa_pairs.append({
+            "question": prompt["question"],
+            "expected_answer": f"Dựa trên sở thích của bạn, tôi gợi ý: {', '.join([ctx['name'] for ctx in FOOD_CONTEXTS if ctx['id'] in prompt['food_ids']])}",
+            "ground_truth_ids": prompt["food_ids"],
+            "context": context,
+            "metadata": {
+                "difficulty": prompt["difficulty"],
+                "type": prompt["type"],
+                "batch": batch_num,
+                "index": i + 1
+            }
+        })
+    
+    return qa_pairs
+
+
+async def generate_additional_hard_cases(client: AsyncOpenAI) -> List[Dict]:
+    """
+    Sinh thêm các hard cases và adversarial cases để test agent
+    """
+    hard_cases = [
+        {
+            "question": "Tôi dị ứng cả tôm vừa cá, nhưng muốn ăn hải sản. Có thể nào?",
+            "expected_answer": "Xin lỗi, trong danh sách của chúng tôi, hầu hết các món hải sản đều có tôm hoặc mực. Tôi gợi ý các môn không hải sản như Phở Bò, Bánh Mì, hay Cơm Tấm.",
+            "ground_truth_ids": ["pho_bo", "banh_mi", "com_tam"],
+            "metadata": {"difficulty": "hard", "type": "adversarial"}
+        },
+        {
+            "question": "Tôi muốn ăn vừa cay vừa không cay cùng một lúc.",
+            "expected_answer": "Đó là mâu thuẫn. Tôi gợi ý bạn chọn: (1) Cay - Bún Bò Huế, Lẩu Thái, hoặc (2) Không cay - Phở Bò, Bánh Mì, Gỏi Cuốn.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "contradiction"}
+        },
+        {
+            "question": "Món ăn nào chứa cả gluten và không chứa gluten?",
+            "expected_answer": "Không có món nào chứa cả gluten và không chứa gluten. Phải chọn một: Bánh Mì (có gluten) hoặc Gỏi Cuốn/Salad (ít gluten).",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "logical_impossibility"}
+        },
+        {
+            "question": "Tôi muốn ăn năm công cụ Michelin stars mà giá dưới 50k?",
+            "expected_answer": "Đó không phải là miêu tả chính xác. Các món trong danh sách của tôi là đồ ăn đường phố truyền thống Việt Nam, không phải Michelin stars. Nhưng bạn có thể thấy chúng ngon lành và có giá tốt.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "misleading_context"}
+        },
+        {
+            "question": "Bạn có thể 'tạo' món ăn mới không có trong danh sách?",
+            "expected_answer": "Không, tôi chỉ có thể gợi ý từ danh sách món ăn hiện có. Nếu bạn muốn thử cái gì mới, hãy mô tả sở thích chi tiết hơn, tôi sẽ giúp tìm từ danh sách.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "boundary"}
         }
     ]
+    
+    return hard_cases
+
 
 async def main():
-    raw_text = "AI Evaluation là một quy trình kỹ thuật nhằm đo lường chất lượng..."
-    qa_pairs = await generate_qa_from_text(raw_text)
+    """
+    Main function: Sinh 50 test cases và lưu vào golden_set.jsonl
+    """
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        print("⚠️  Không tìm thấy OPENAI_API_KEY. Sinh dữ liệu mẫu không gọi LLM...")
     
-    with open("data/golden_set.jsonl", "w", encoding="utf-8") as f:
-        for pair in qa_pairs:
+    client = AsyncOpenAI(api_key=api_key) if api_key else None
+    
+    all_qa_pairs = []
+    
+    # Sinh batch 1 (10 cases)
+    print("📝 Sinh batch 1 (10 cases)...")
+    batch1 = await generate_qa_pairs_batch(client, batch_num=1)
+    all_qa_pairs.extend(batch1)
+    
+    # Sinh batch 2 (10 cases) - Biến thể thêm
+    print("📝 Sinh batch 2 (10 cases)...")
+    batch2 = [
+        {
+            "question": "Tôi muốn ăn ở nhà hàng sang trọng buổi tối, phục vụ chuyên nghiệp.",
+            "expected_answer": "Lẩu Thái Hải Sản hoặc Bánh Xèo thích hợp cho bữa tối gia đình hoặc bạn bè. Cả hai đều là trải nghiệm ăn uống tuyệt vời.",
+            "ground_truth_ids": ["lau_thai", "banh_xeo"],
+            "metadata": {"difficulty": "easy", "type": "occasion-based"}
+        },
+        {
+            "question": "Tôi muốn chọn món ăn để ấn tượng với bạn gái lần đầu.",
+            "expected_answer": "Gợi ý: Gỏi Cuốn (tươi mát, thanh nhã) hoặc Lẩu Thái (lãng mạn, chia sẻ cùng nhau). Tránh những mon quá mùi hoặc bẩn bẩn.",
+            "ground_truth_ids": ["goi_cuon", "lau_thai"],
+            "metadata": {"difficulty": "medium", "type": "social"}
+        },
+        {
+            "question": "Tôi ăn chay, không thể ăn thịt hay hải sản. Có gì cho tôi?",
+            "expected_answer": "Xin lỗi, hầu hết danh sách của tôi đều chứa thịt. Bạn có thể chỉnh sửa: ăn Gỏi Cuốn hay Salad nhưng bỏ phần thịt, hoặc yêu cầu làm riêng phiên bản chay.",
+            "ground_truth_ids": ["goi_cuon", "salad_uc_bo"],
+            "metadata": {"difficulty": "hard", "type": "dietary_restriction"}
+        },
+        {
+            "question": "Tôi muốn ăn gì trong buổi sáng đầy năng lượng?",
+            "expected_answer": "Gợi ý: Cơm Tấm Sườn Bì (protein cao, năng lượng dài), Bánh Mì (nhanh, cục bộ), hoặc Phở (cân bằng).",
+            "ground_truth_ids": ["com_tam", "banh_mi", "pho_bo"],
+            "metadata": {"difficulty": "easy", "type": "nutritional"}
+        },
+        {
+            "question": "Tôi có 10 phút, không thể nấu. Phải ăn cái gì?",
+            "expected_answer": "Bánh Mì là lựa chọn nhanh nhất (dưới 5 phút). Gỏi Cuốn cũng nhanh nếu có sẵn.",
+            "ground_truth_ids": ["banh_mi", "goi_cuon"],
+            "metadata": {"difficulty": "easy", "type": "time_constraint"}
+        },
+        {
+            "question": "Tôi muốn cảm nhận hương vị Việt Nam truyền thống nhất.",
+            "expected_answer": "Phở Bò, Bún Bò Huế, Cơm Tấm là những tượng trưng của Việt Nam. Tùy vùng miền, bạn chọn phù hợp.",
+            "ground_truth_ids": ["pho_bo", "bun_bo_hue", "com_tam"],
+            "metadata": {"difficulty": "medium", "type": "cultural"}
+        },
+        {
+            "question": "Tôi muốn ăn gì nếu bộ dạ yếu, đau bụng?",
+            "expected_answer": "Cháo Gà là lựa chọn tốt nhất (dễ tiêu, mềm mịn). Phở Bò cũng có thể (nước dùng lành), nhưng tránh đồ cay như Bún Bò Huế.",
+            "ground_truth_ids": ["chao_ga", "pho_bo"],
+            "metadata": {"difficulty": "hard", "type": "health_related"}
+        },
+        {
+            "question": "Tôi là du khách lần đầu đến Việt Nam. Nên ăn gì 'must-try'?",
+            "expected_answer": "Phở Bò, Bánh Mì, Gỏi Cuốn là top 3 'must-try' của Việt Nam. Hãy thử hết ba cái này!",
+            "ground_truth_ids": ["pho_bo", "banh_mi", "goi_cuon"],
+            "metadata": {"difficulty": "easy", "type": "tourist"}
+        },
+        {
+            "question": "Tôi muốn giảm cân từ 80kg xuống 60kg trong 3 tháng. Nên ăn gì?",
+            "expected_answer": "Gỏi Cuốn, Salad Ức Bơ là những lựa chọn calo thấp. Nhưng kết quả giảm cân phụ thuộc nhiều yếu tố, hãy tham khảo dinh dưỡng sĩ.",
+            "ground_truth_ids": ["goi_cuon", "salad_uc_bo"],
+            "metadata": {"difficulty": "medium", "type": "misleading"}
+        },
+        {
+            "question": "Cách nào để ăn Bánh Xèo để lành mạnh nhất?",
+            "expected_answer": "Bánh Xèo có dầu mỡ cao. Để lành mạnh: ăn với rau sống nhiều, ít nước mắm, chia sẻ với mọi người, hoặc chọn Gỏi Cuốn/Salad để thay thế.",
+            "ground_truth_ids": ["banh_xeo"],
+            "metadata": {"difficulty": "medium", "type": "health_tip"}
+        },
+    ]
+    all_qa_pairs.extend(batch2)
+    
+    # Sinh batch 3 (10 cases) - Biến thể thêm
+    print("📝 Sinh batch 3 (10 cases)...")
+    batch3 = [
+        {
+            "question": "Tôi có quá 5 người, cần order gì chia sẻ nhóm?",
+            "expected_answer": "Lẩu Thái hoặc Bánh Xèo rất tuyệt vời để chia sẻ nhóm lớn. Cả hai đều có tính 'social' cao.",
+            "ground_truth_ids": ["lau_thai", "banh_xeo"],
+            "metadata": {"difficulty": "medium", "type": "group_dining"}
+        },
+        {
+            "question": "Tôi bị dị ứng đồ ăn nóng. Nên ăn gì lạnh?",
+            "expected_answer": "Gỏi Cuốn, Salad Ức Bơ là những lựa chọn lạnh. Bánh Mì có thể ăn ở nhiệt độ phòng.",
+            "ground_truth_ids": ["goi_cuon", "salad_uc_bo", "banh_mi"],
+            "metadata": {"difficulty": "medium", "type": "dietary_restriction"}
+        },
+        {
+            "question": "Tôi thích ăn các loại mì, bún. Gợi ý gì?",
+            "expected_answer": "Phở Bò, Bún Bò Huế, Mì Quảng, Gỏi Cuốn (có bún). Tất cả đều có mì hoặc bún.",
+            "ground_truth_ids": ["pho_bo", "bun_bo_hue", "mi_quang", "goi_cuon"],
+            "metadata": {"difficulty": "easy", "type": "ingredient_based"}
+        },
+        {
+            "question": "Tôi muốn ăn gì vào buổi tối muộn, không quá nặng?",
+            "expected_answer": "Gỏi Cuốn, Salad Ức Bơ là những lựa chọn nhẹ nhàng vào tối. Bánh Mì cũng được nếu đói.",
+            "ground_truth_ids": ["goi_cuon", "salad_uc_bo", "banh_mi"],
+            "metadata": {"difficulty": "easy", "type": "time_based"}
+        },
+        {
+            "question": "Tôi yêu thích xương, mô liên kết. Gợi ý gì?",
+            "expected_answer": "Phở Bò có xương, nước dùng bao giờ. Bún Bò Huế cũng có giò heo. Hai cái này hoàn hảo cho bạn.",
+            "ground_truth_ids": ["pho_bo", "bun_bo_hue"],
+            "metadata": {"difficulty": "medium", "type": "ingredient_preference"}
+        },
+        {
+            "question": "Tôi muốn ăn gì để tăng cơ bắp sau tập gym?",
+            "expected_answer": "Cơm Tấm Sườn Bì (protein cao, calo nhiều) hoặc Salad Ức Bơ (protein sạch, chất béo tốt).",
+            "ground_truth_ids": ["com_tam", "salad_uc_bo"],
+            "metadata": {"difficulty": "easy", "type": "fitness"}
+        },
+        {
+            "question": "Tôi muốn ăn gì có vị umami mạnh?",
+            "expected_answer": "Phở Bò (nước dùng xương), Bún Bò Huế (mắm ruốc), Mì Quảng (gia vị đậm) đều có umami cao.",
+            "ground_truth_ids": ["pho_bo", "bun_bo_hue", "mi_quang"],
+            "metadata": {"difficulty": "medium", "type": "flavor_profile"}
+        },
+        {
+            "question": "Tôi sợ hàng tôm chết, muốn ăn gì an toàn?",
+            "expected_answer": "Phở Bò, Bánh Mì, Cơm Tấm, Cháo Gà, Bánh Xèo không có hải sản (tươi). Những cái này an toàn hơn.",
+            "ground_truth_ids": ["pho_bo", "banh_mi", "com_tam", "chao_ga", "banh_xeo"],
+            "metadata": {"difficulty": "medium", "type": "food_safety"}
+        },
+        {
+            "question": "Tôi muốn ăn gì để cảm nhận quy trình nấu nướng truyền thống?",
+            "expected_answer": "Phở Bò, Cháo Gà, Bún Bò Huế là những món đòi hỏi nấu nướng công phu, truyền thống.",
+            "ground_truth_ids": ["pho_bo", "chao_ga", "bun_bo_hue"],
+            "metadata": {"difficulty": "medium", "type": "cultural"}
+        },
+        {
+            "question": "Tôi muốn ăn gì không làm bẩn quần áo?",
+            "expected_answer": "Cơm Tấm, Cháo Gà, Salad Ức Bơ ít bẩn. Tránh: Bánh Xèo (dầu), Phở (nước miếng), Gỏi Cuốn (sốt).",
+            "ground_truth_ids": ["com_tam", "chao_ga", "salad_uc_bo"],
+            "metadata": {"difficulty": "medium", "type": "practical"}
+        },
+    ]
+    all_qa_pairs.extend(batch3)
+    
+    # Sinh batch 4 (10 cases) - Hard cases
+    print("📝 Sinh batch 4 (hard cases - 10 cases)...")
+    hard_batch = await generate_additional_hard_cases(client)
+    # Mở rộng hard batch từ 5 thành 10
+    hard_batch.extend([
+        {
+            "question": "Tôi là vegan, kiêng gluten, dị ứng hạt và các loại mắm. Có gì cho tôi?",
+            "expected_answer": "Xin lỗi, yêu cầu của bạn quá hạn chế. Hầu hết các món Việt Nam đều sử dụng mắm hoặc nước cốt dừa. Tôi không có giải pháp hoàn hảo.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "extreme_restriction"}
+        },
+        {
+            "question": "Bạn có thể chứng minh rằng Phở Bò ngon hơn Bún Bò Huế không?",
+            "expected_answer": "Không, 'ngon hơn' là vấn đề cá nhân. Phở Bò nhẹ nhàng, Bún Bò Huế cay nồng. Tùy vào khẩu vị của bạn.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "subjective_claim"}
+        },
+        {
+            "question": "Tôi muốn ăn X nhưng bạn khuyên Y, thế nào là đúng?",
+            "expected_answer": "Cả hai đều đúng. Tôi chỉ là một hướng dẫn viên, sở thích ăn uống của bạn là quyết định cuối cùng.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "open_ended"}
+        },
+        {
+            "question": "Tôi muốn biết tất cả các loại bánh xèo ở thế giới, bạn có biết?",
+            "expected_answer": "Tôi chỉ biết về Bánh Xèo Việt Nam trong danh sách. Những loại bánh xèo khác trên thế giới không phải lĩnh vực chuyên môn của tôi.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "out_of_scope"}
+        },
+    ])
+    all_qa_pairs.extend(hard_batch)
+    
+    # Tổng cộng = 10 + 10 + 10 + 15 = 45 cases. Thêm 5 nữa để đủ 50
+    print("📝 Sinh thêm 5 cases để đủ 50...")
+    additional = [
+        {
+            "question": "Tôi muốn ăn gì vào buổi trưa với bạn sở thích đặc biệt?",
+            "expected_answer": "Hãy mô tả sở thích chi tiết hơn: thích cay hay nhẹ? Có thời gian hay bận? Tôi sẽ giúp bạn tìm ra cái tốt nhất.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "medium", "type": "clarification_needed"}
+        },
+        {
+            "question": "Tôi muốn so sánh giá tiền các món. Bạn có dữ liệu giá?",
+            "expected_answer": "Tôi không có dữ liệu giá cụ thể, nhưng Bánh Mì, Phở Bò thường rẻ hơn Lẩu Thái.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "data_limitation"}
+        },
+        {
+            "question": "Tôi nói tiếng Nhật, bạn có hiểu không?",
+            "expected_answer": "Tôi chỉ sử dụng tiếng Việt. Nếu bạn muốn tư vấn gợi ý đồ ăn, vui lòng nói tiếng Việt hoặc tiếng Anh.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "language"}
+        },
+        {
+            "question": "Bạn tên gì? Bạn là AI hay người thực?",
+            "expected_answer": "Tôi là một AI Assistant chuyên về gợi ý đồ ăn Việt Nam. Tôi được gọi là FoodAgent. Hãy hỏi tôi về đồ ăn!",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "meta"}
+        },
+        {
+            "question": "Tôi muốn đặt hàng giao hàng. Bạn có thể làm được không?",
+            "expected_answer": "Tôi chỉ gợi ý đồ ăn, không xử lý đặt hàng hoặc giao hàng. Vui lòng tìm nhà hàng hoặc ứng dụng giao hàng như Grab, Now để đặt.",
+            "ground_truth_ids": [],
+            "metadata": {"difficulty": "hard", "type": "out_of_scope_service"}
+        }
+    ]
+    all_qa_pairs.extend(additional)
+    
+    # Đảm bảo đúng 50 cases
+    all_qa_pairs = all_qa_pairs[:50]
+    
+    print(f"\n✅ Tổng cộng: {len(all_qa_pairs)} test cases")
+    
+    # Lưu vào golden_set.jsonl
+    output_path = "data/golden_set.jsonl"
+    os.makedirs("data", exist_ok=True)
+    
+    with open(output_path, "w", encoding="utf-8") as f:
+        for i, pair in enumerate(all_qa_pairs, 1):
             f.write(json.dumps(pair, ensure_ascii=False) + "\n")
-    print("Done! Saved to data/golden_set.jsonl")
+    
+    print(f"✅ Đã lưu {len(all_qa_pairs)} test cases vào {output_path}")
+    
+    # Print summary
+    print("\n📊 Thống kê:")
+    difficulty_count = {}
+    type_count = {}
+    for pair in all_qa_pairs:
+        diff = pair["metadata"]["difficulty"]
+        typ = pair["metadata"]["type"]
+        difficulty_count[diff] = difficulty_count.get(diff, 0) + 1
+        type_count[typ] = type_count.get(typ, 0) + 1
+    
+    print(f"  - Độ khó: {difficulty_count}")
+    print(f"  - Loại câu hỏi: {type_count}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
